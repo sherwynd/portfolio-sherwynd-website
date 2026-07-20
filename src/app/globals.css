@@ -131,7 +131,7 @@ main {
 }
 
 .brand,
-.site-header nav,
+.desktop-nav,
 .header-actions,
 .site-footer div,
 .hero-actions,
@@ -158,12 +158,12 @@ main {
   font-weight: 900;
 }
 
-.site-header nav {
+.desktop-nav {
   justify-content: center;
   gap: 4px;
 }
 
-.site-header nav a {
+.desktop-nav a {
   border-radius: 999px;
   padding: 10px 12px;
   color: var(--muted);
@@ -173,8 +173,8 @@ main {
     color 160ms ease;
 }
 
-.site-header nav a:hover,
-.site-header nav a:focus-visible {
+.desktop-nav a:hover,
+.desktop-nav a:focus-visible {
   background: var(--accent-wash);
   color: var(--text);
 }
@@ -209,6 +209,37 @@ main {
   background: var(--accent-wash);
   color: var(--accent);
   transform: translateY(-2px);
+}
+
+.menu-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface-subtle);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.menu-toggle:hover,
+.menu-toggle:focus-visible {
+  border-color: var(--accent-line-strong);
+  background: var(--accent-wash);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.menu-toggle svg {
+  width: 19px;
+  height: 19px;
 }
 
 .theme-icon {
@@ -1089,6 +1120,61 @@ h3 {
   font-size: 0.82rem;
 }
 
+.navigation-popover {
+  position: fixed;
+  inset: 92px max(16px, calc((100vw - 1120px) / 2)) auto auto;
+  width: min(280px, calc(100% - 32px));
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--accent-line-strong);
+  border-radius: 22px;
+  padding: 12px;
+  background: var(--popover-background);
+  color: var(--text);
+  box-shadow: 0 24px 70px var(--popover-shadow);
+}
+
+.navigation-popover:popover-open {
+  display: grid;
+  gap: 10px;
+}
+
+.navigation-popover::backdrop {
+  background: transparent;
+}
+
+.navigation-popover-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 2px 2px 8px 12px;
+}
+
+.navigation-popover-links {
+  display: grid;
+  gap: 6px;
+}
+
+.navigation-popover-links a {
+  border: 1px solid transparent;
+  border-radius: 14px;
+  padding: 13px 14px;
+  color: var(--muted);
+  font-weight: 800;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.navigation-popover-links a:hover,
+.navigation-popover-links a:focus-visible {
+  border-color: var(--accent-line);
+  background: var(--accent-wash);
+  color: var(--text);
+}
+
 .site-footer {
   display: flex;
   align-items: center;
@@ -1129,21 +1215,47 @@ h3 {
   }
 }
 
-@media (max-width: 980px) {
+@media (max-width: 1120px) {
   .site-header {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    border-radius: 26px;
+    grid-template-columns: minmax(0, 1fr) max-content;
   }
 
-  .site-header nav {
-    order: 3;
-    flex-wrap: wrap;
+  .desktop-nav {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-grid;
+  }
+}
+
+@media (max-width: 980px) {
+  .site-header {
+    grid-template-columns: minmax(0, 1fr) max-content;
+    justify-items: stretch;
+    border-radius: 999px;
+  }
+
+  .desktop-nav {
+    display: none;
   }
 
   .header-actions {
-    justify-content: center;
-    flex-wrap: wrap;
+    justify-self: end;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+  }
+
+  .header-download,
+  .site-header .contact-trigger {
+    width: 44px;
+    flex: 0 0 44px;
+    padding: 0;
+  }
+
+  .header-download-label,
+  .header-contact-label {
+    display: none;
   }
 
   .hero-section {
@@ -1206,7 +1318,7 @@ h3 {
 
   .site-header {
     top: 8px;
-    grid-template-columns: max-content max-content;
+    grid-template-columns: minmax(0, 1fr) max-content;
     justify-content: space-between;
     justify-items: stretch;
     gap: 10px;
@@ -1214,7 +1326,7 @@ h3 {
     border-radius: 999px;
   }
 
-  .site-header nav {
+  .desktop-nav {
     display: none;
   }
 
@@ -1241,7 +1353,20 @@ h3 {
     font-size: 0.8rem;
   }
 
+  .header-download,
+  .site-header .contact-trigger {
+    width: 40px;
+    flex-basis: 40px;
+    padding: 0;
+  }
+
   .theme-toggle {
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
+  }
+
+  .menu-toggle {
     width: 40px;
     height: 40px;
     flex-basis: 40px;
@@ -1360,16 +1485,5 @@ h3 {
 
   .site-footer div {
     justify-content: center;
-  }
-}
-
-@media (max-width: 420px) {
-  .header-download {
-    width: 40px;
-    padding: 0;
-  }
-
-  .header-download-label {
-    display: none;
   }
 }

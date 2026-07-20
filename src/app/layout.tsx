@@ -10,6 +10,7 @@ import {
   Phone,
   X,
 } from "lucide-react";
+import { NavigationMenu } from "../components/navigation-menu";
 import { ThemeToggle } from "../components/theme-toggle";
 import { THEME_STORAGE_KEY } from "../lib/theme";
 import "./globals.css";
@@ -119,7 +120,7 @@ export default function RootLayout({
             <span>SL</span>
             <strong>Sherwynd</strong>
           </a>
-          <nav aria-label="Main navigation">
+          <nav className="desktop-nav" aria-label="Main navigation">
             {navItems.map((item) => (
               <a key={item.label} href={item.href}>
                 {item.label}
@@ -127,6 +128,7 @@ export default function RootLayout({
             ))}
           </nav>
           <div className="header-actions">
+            <NavigationMenu items={navItems} />
             <ThemeToggle />
             <a
               href="/sherwynd-liew-cv.pdf"
@@ -142,8 +144,11 @@ export default function RootLayout({
               type="button"
               className="header-cta header-secondary contact-trigger"
               popoverTarget="contact-options"
+              aria-label="Open contact options"
+              title="Contact Me"
             >
-              Contact Me
+              <MessageCircle aria-hidden="true" />
+              <span className="header-contact-label">Contact Me</span>
             </button>
           </div>
         </header>
